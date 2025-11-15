@@ -14,28 +14,51 @@ This document provides comprehensive guidance for AI assistants working on the `
 ## Repository Overview
 
 **Repository:** wico216/ccw-app
-**Status:** New repository (initialized but no code committed yet)
-**Purpose:** [To be documented as project develops]
+**Project Name:** CCW App (Collectible Card Wizard)
+**Status:** Planning & Documentation Phase
+**Purpose:** Web-based Progressive Web App for managing Magic: The Gathering card collections, building decks, and tracking card values
+
+### Project Description
+
+CCW App is a personal collection management tool inspired by Manabox. It provides:
+- Card collection tracking and organization
+- Deck building and analysis
+- Price tracking and collection valuation
+- Offline-capable Progressive Web App
+- No subscription fees - complete data ownership
 
 ### Key Information
-- This is a fresh repository with no existing codebase
-- Development follows feature branch workflow
-- All AI assistant work should be done on designated `claude/*` branches
+- **Tech Stack**: React + TypeScript, Supabase, Tailwind CSS
+- **Data Source**: Scryfall API for MTG card data
+- **Development follows feature branch workflow**
+- **All AI assistant work should be done on designated `claude/*` branches**
+- **See PROJECT_SPEC.md for detailed technical specifications**
+- **See MANABOX_RESEARCH.md for competitive analysis**
 
 ## Codebase Structure
 
 ### Current State
-The repository is newly initialized. As the codebase develops, maintain this structure documentation:
+The repository is in the planning phase with comprehensive documentation completed:
 
 ```
 ccw-app/
-├── .git/              # Git repository metadata
-├── CLAUDE.md          # This file - AI assistant guide
-├── README.md          # Project documentation (to be created)
-├── package.json       # Project dependencies (if Node.js/TypeScript)
-├── src/               # Source code (to be created)
-├── tests/             # Test files (to be created)
-└── docs/              # Additional documentation (optional)
+├── .git/                    # Git repository metadata
+├── CLAUDE.md                # This file - AI assistant guide
+├── MANABOX_RESEARCH.md      # Research on Manabox app features
+├── PROJECT_SPEC.md          # Detailed technical specification
+├── README.md                # Project documentation (to be created)
+├── frontend/                # React web app (to be created)
+│   ├── src/
+│   │   ├── components/      # UI components
+│   │   ├── pages/           # Page components
+│   │   ├── services/        # API services (Scryfall, Supabase)
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── types/           # TypeScript type definitions
+│   │   ├── lib/             # Utility libraries
+│   │   └── utils/           # Helper functions
+│   ├── public/              # Static assets
+│   └── package.json         # Frontend dependencies
+└── docs/                    # Additional documentation
 ```
 
 ### Recommended Structure
@@ -445,35 +468,170 @@ Before completing work, verify:
 ## Project-Specific Notes
 
 ### Current Status
-- **Stage:** Repository initialization
+- **Stage:** Planning & Documentation Complete
+- **Phase:** Ready to begin implementation
 - **Next Steps:**
-  - Define project purpose and scope
-  - Set up initial project structure
-  - Configure build tools and dependencies
-  - Establish testing framework
-  - Create initial documentation
+  - Initialize Vite + React + TypeScript project
+  - Set up Tailwind CSS + shadcn/ui
+  - Create Supabase project and database schema
+  - Implement Scryfall API integration
+  - Begin Phase 1 (MVP) development
 
 ### Technology Stack
-[To be documented as project develops]
+
+**Frontend:**
+- React 18 with TypeScript
+- Vite (build tool)
+- Tailwind CSS + shadcn/ui (styling)
+- React Router v6 (routing)
+- Zustand (state management)
+- React Query/TanStack Query (data fetching)
+- Dexie.js (IndexedDB for offline)
+
+**Backend:**
+- Supabase (BaaS platform)
+- PostgreSQL (database)
+- Supabase Auth (authentication)
+- Supabase Storage (file storage)
+
+**External APIs:**
+- Scryfall API (MTG card data)
+- Scryfall CDN (card images)
+
+**Deployment:**
+- Vercel (frontend hosting)
+- Supabase Cloud (backend)
 
 ### External Dependencies
-[To be documented as dependencies are added]
+
+**Data Sources:**
+- **Scryfall API**: https://api.scryfall.com - Free MTG card database
+  - Rate limit: Respectful use (100ms between requests)
+  - No API key required
+  - Comprehensive card data including prices, rulings, images
+
+**Key npm Packages:**
+- `@supabase/supabase-js` - Supabase client
+- `@tanstack/react-query` - Data fetching and caching
+- `react-router-dom` - Routing
+- `zustand` - State management
+- `dexie` - IndexedDB wrapper
+- `zod` - Schema validation
+- `react-hook-form` - Form handling
+- `recharts` - Data visualization
+
+### Project Conventions
+
+**File Naming:**
+- Components: PascalCase (e.g., `CardSearch.tsx`)
+- Utilities: camelCase (e.g., `formatPrice.ts`)
+- Types: PascalCase (e.g., `Card.types.ts`)
+- Services: camelCase with .service suffix (e.g., `scryfall.service.ts`)
+
+**Component Structure:**
+```typescript
+// components/CardSearch/CardSearch.tsx
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { scryfallService } from '@/services/scryfall.service';
+import type { Card } from '@/types/card.types';
+
+export function CardSearch() {
+  // Component logic
+}
+```
+
+**Service Pattern:**
+```typescript
+// services/scryfall.service.ts
+class ScryfallService {
+  private baseURL = 'https://api.scryfall.com';
+
+  async searchCards(query: string) {
+    // Implementation
+  }
+}
+
+export const scryfallService = new ScryfallService();
+```
+
+**Type Definitions:**
+```typescript
+// types/card.types.ts
+export interface Card {
+  id: string;
+  name: string;
+  mana_cost?: string;
+  type_line: string;
+  oracle_text?: string;
+  // ...
+}
+```
+
+### API Integration Notes
+
+**Scryfall API Best Practices:**
+- Cache responses to minimize API calls
+- Respect rate limits (100ms between requests)
+- Use bulk data endpoints when possible
+- Handle 404s gracefully (card not found)
+- Parse card symbols for mana cost display
+
+**Supabase Best Practices:**
+- Use Row Level Security (RLS) policies
+- Leverage realtime subscriptions for live updates
+- Use parameterized queries to prevent injection
+- Implement proper error handling
+- Use TypeScript types generated from schema
 
 ### Known Issues
-[To be documented as issues arise]
+- None yet (project in planning phase)
+- Will be documented as development progresses
+
+### Development Phases
+
+**Phase 1 (Weeks 1-3):** MVP - Card Search & Collection
+**Phase 2 (Weeks 4-5):** Organization - Binders & Lists
+**Phase 3 (Weeks 6-8):** Deck Building
+**Phase 4 (Weeks 9-12):** Advanced Features
+
+See PROJECT_SPEC.md for detailed phase breakdown.
 
 ## Resources
 
-### Documentation
-- Git Documentation: https://git-scm.com/doc
-- Conventional Commits: https://www.conventionalcommits.org/
-- OWASP Top 10: https://owasp.org/www-project-top-ten/
+### Project Documentation
+- **PROJECT_SPEC.md**: Comprehensive technical specification and implementation plan
+- **MANABOX_RESEARCH.md**: Competitive analysis and feature research
+- **CLAUDE.md**: This file - AI assistant guide
+
+### External Documentation
+- **React**: https://react.dev/
+- **TypeScript**: https://www.typescriptlang.org/docs/
+- **Vite**: https://vitejs.dev/
+- **Tailwind CSS**: https://tailwindcss.com/docs
+- **shadcn/ui**: https://ui.shadcn.com/
+- **Supabase**: https://supabase.com/docs
+- **React Query**: https://tanstack.com/query/latest
+- **Scryfall API**: https://scryfall.com/docs/api
+- **Git Documentation**: https://git-scm.com/doc
+- **Conventional Commits**: https://www.conventionalcommits.org/
+- **OWASP Top 10**: https://owasp.org/www-project-top-ten/
 
 ### Tools
-- Git for version control
-- [Package manager to be determined]
-- [Testing framework to be determined]
-- [Build tools to be determined]
+- **Version Control**: Git/GitHub
+- **Package Manager**: npm
+- **Build Tool**: Vite
+- **Testing**: Vitest, React Testing Library, Playwright
+- **Code Quality**: ESLint, Prettier, TypeScript
+- **Deployment**: Vercel
+- **Backend**: Supabase
+
+### Learning Resources
+- **React Tutorial**: https://react.dev/learn
+- **TypeScript Handbook**: https://www.typescriptlang.org/docs/handbook/
+- **Supabase Getting Started**: https://supabase.com/docs/guides/getting-started
+- **PWA Guide**: https://web.dev/progressive-web-apps/
+- **MTG API Guide**: https://scryfall.com/docs/api-overview
 
 ## Maintenance
 
@@ -491,5 +649,9 @@ Keep this document current and accurate to ensure AI assistants have the best co
 ---
 
 **Last Updated:** 2025-11-15
-**Version:** 1.0.0
+**Version:** 2.0.0
 **Maintained by:** Project contributors
+
+**Changelog:**
+- v2.0.0 (2025-11-15): Updated with CCW App project details, tech stack, and conventions
+- v1.0.0 (2025-11-15): Initial AI assistant guide template
